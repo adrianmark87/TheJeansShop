@@ -33,7 +33,7 @@ export default function SignIn() {
         resizeMode="contain"
       />
       <StatusBar style="auto" />
-      <View  style={styles.container}>
+      <View  style={styles.containerLogin}>
       <ScrollView style={styles.inputFields}>
       <View style={styles.inputContainer}>
         <TextInput
@@ -130,19 +130,27 @@ const styles = StyleSheet.create({
     container: {
       flexGrow: 1,
       backgroundColor: "#fff",
-      //   alignItems: "center",
+     //   alignItems: "center",
       paddingTop: 20, // Add padding to the top to create space for the logo
     },
     image: {
       marginBottom: 20,
+      },
+    containerLogin: {
+      flexGrow: 1,
+      backgroundColor: "#fff",
+     
+    alignItems:'center',
+      paddingTop: 20, // Add padding to the top to create space for the logo
     },
     inputFields : {
         height: "45%",
+        width: "75%",
+    
     },
     inputContainer: {
         backgroundColor: "#809BBD",
         borderRadius: 30,
-        width: "75%",
         height: 45,
         marginBottom: 20,
         alignItems: "center",

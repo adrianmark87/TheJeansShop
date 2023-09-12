@@ -18,6 +18,7 @@ import LogIn from './LogInPage'; // Import your LogInPage component
 import Payment from './PaiementPage';
 
 
+
 //Screen names
 const homeName='Home';
 const personName='Person';
@@ -30,7 +31,7 @@ const Stack = createStackNavigator();
 
 
 export default function Main(){
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const handleLogin = () => {
         // Implement your authentication logic here
         // If authentication is successful, set isLoggedIn to true
@@ -79,10 +80,10 @@ export default function Main(){
         </Tab.Navigator>  ) : (
     // Auth screens
     <Stack.Navigator initialRouteName="Welcome">
-      <Stack.Screen name="SignIn" component={SignIn} />
-      <Stack.Screen name="LogIn" component={LogIn} />
       <Stack.Screen name="Welcome" component={Welcome} 
       />
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="LogIn" component={LogIn} />
       <Stack.Screen name="Payment" component={Payment} 
       />
       </Stack.Navigator>

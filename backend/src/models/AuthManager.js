@@ -18,7 +18,7 @@ function login({ email, password }) {
         return { status: 401, message: "Email or password is wrong" };
       }
 
-      const { id, role, first_name, last_name } = rows[0]; // Extract first_name and last_name from rows[0]
+      const { id, role, first_name, last_name, is_admin } = rows[0]; // Extract first_name and last_name from rows[0]
 
       const token = jwt.sign(
         {
@@ -26,6 +26,7 @@ function login({ email, password }) {
           role,
           first_name,
           last_name,
+          is_admin,
         },
         privateKey,
         {

@@ -30,13 +30,11 @@ const read = (req, res) => {
 
 const edit = (req, res) => {
   const user = req.body;
-  console.log(user);
+
   // TODO validations (length, format...)
 
-  user.id = parseInt(req.params.id, 10);
-
   models.user
-    .update(user)
+    .update(parseInt(req.params.id, 10), user)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);

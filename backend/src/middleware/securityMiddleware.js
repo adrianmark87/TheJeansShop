@@ -36,17 +36,35 @@ const verifyTokenById = (req, res, next) => {
 const verifyTokenByRoleAdminOrSelfId = (req, res, next) => {
   try {
     if (
-      !req.payload.is_admin &&
-      req.payload.userId !== parseInt(req.params.id, 10)
+      !(
+        req.payload.is_admin ||
+        req.payload.userId === parseInt(req.params.id, 10)
+      )
     ) {
       throw new Error("Token payload Role Admin does not match requested role");
     }
     next();
   } catch (err) {
     console.error(err);
-    res.sendStatus(401);
+    return res.status(401).json("You don't have the rights.");
   }
 };
+
+// const verifyTokenByRoleAdminOrSelfId = (req, res, next) => {
+//   try {
+//     if (
+//       req.payload.is_admin || // Allow admins to delete any account
+//       req.payload.userId === parseInt(req.params.id, 10) // Allow users to delete their own account
+//     ) {
+//       next();
+//     } else {
+//       throw new Error("Unauthorized access");
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res.sendStatus(401);
+//   }
+// };
 
 module.exports = {
   verifyToken,

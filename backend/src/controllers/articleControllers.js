@@ -33,10 +33,8 @@ const edit = (req, res) => {
 
   // TODO validations (length, format...)
 
-  article.id = parseInt(req.params.id, 10);
-
   models.article
-    .update(article)
+    .update(parseInt(req.params.id, 10), article)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);

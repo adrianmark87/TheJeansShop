@@ -33,10 +33,8 @@ const edit = (req, res) => {
 
   // TODO validations (length, format...)
 
-  orders.id = parseInt(req.params.id, 10);
-
   models.orders
-    .update(orders)
+    .update(parseInt(req.params.id, 10), orders)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -58,7 +56,7 @@ const add = (req, res) => {
   models.orders
     .insert(orders)
     .then(([result]) => {
-      res.location(`/orderss/${result.insertId}`).sendStatus(201);
+      res.location(`/orders/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);

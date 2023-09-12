@@ -2,7 +2,6 @@ const express = require("express");
 
 const {
   verifyToken,
-  verifyTokenById,
   verifyTokenByRoleAdminOrSelfId,
 } = require("./middleware/securityMiddleware");
 
@@ -16,12 +15,16 @@ const userControllers = require("./controllers/userControllers");
 
 router.get("/user", userControllers.browse);
 router.get("/user/:id", userControllers.read);
-router.put("/user/:id", verifyToken, verifyTokenById, userControllers.edit);
+router.put(
+  "/user/:id",
+  verifyToken,
+  verifyTokenByRoleAdminOrSelfId,
+  userControllers.edit
+);
 router.post("/user", userControllers.add);
 router.delete(
   "/user/:id",
   verifyToken,
-  verifyTokenById,
   verifyTokenByRoleAdminOrSelfId,
   userControllers.destroy
 );
@@ -33,7 +36,7 @@ router.get("/article/:id", articleControllers.read);
 router.put(
   "/article/:id",
   verifyToken,
-  verifyTokenById,
+  verifyTokenByRoleAdminOrSelfId,
   articleControllers.edit
 );
 router.post("/article", articleControllers.add);
@@ -48,7 +51,12 @@ const ordersControllers = require("./controllers/ordersControllers");
 
 router.get("/orders", ordersControllers.browse);
 router.get("/orders/:id", ordersControllers.read);
-router.put("/orders/:id", verifyToken, verifyTokenById, ordersControllers.edit);
+router.put(
+  "/orders/:id",
+  verifyToken,
+  verifyTokenByRoleAdminOrSelfId,
+  ordersControllers.edit
+);
 router.post("/orders", ordersControllers.add);
 router.delete(
   "/orders/:id",
@@ -64,7 +72,7 @@ router.get("/order_details/:id", orderDetailsControllers.read);
 router.put(
   "/order_details/:id",
   verifyToken,
-  verifyTokenById,
+  verifyTokenByRoleAdminOrSelfId,
   orderDetailsControllers.edit
 );
 router.post("/order_details", orderDetailsControllers.add);

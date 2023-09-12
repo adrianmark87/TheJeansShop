@@ -10,11 +10,39 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
+import ApiHelper from "../navigation/services/ApiHelper";
+import { useNavigation } from '@react-navigation/native';
+import { useToken } from "../navigation/context/TokenContext";
 
 const { width, height } = Dimensions.get("window");
+
+
 export default function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setToken } = useToken();
+  const navigation = useNavigation();
+
+  const handleSubmit = async (event) => {
+    
+    event.preventDefault();
+    if (email && password) {
+      const data = JSON.stringify({ email, password });
+      console.log('avant Api Helper');
+      ApiHelper("/login", "POST", null, data)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("je suis result", result)
+          console.error(result.token);
+          if (result.token) {
+            setToken(result.token);
+          }
+          navigation.navigate("Home");
+        });
+    }
+  }; 
+
+
   return (
     <View style={styles.container}>
        <Image
@@ -43,7 +71,7 @@ export default function LogIn() {
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text> 
       </TouchableOpacity> 
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity onPress={handleSubmit} style={styles.loginBtn}>
         <Text style={styles.loginText}>LOGIN</Text> 
       </TouchableOpacity> 
     </View> 

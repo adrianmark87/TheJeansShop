@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const models = require("../models");
 
 const browse = (req, res) => {
@@ -33,10 +34,8 @@ const edit = (req, res) => {
 
   // TODO validations (length, format...)
 
-  order_details.id = parseInt(req.params.id, 10);
-
   models.order_details
-    .update(order_details)
+    .update(parseInt(req.params.id, 10), order_details)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
