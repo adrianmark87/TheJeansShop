@@ -6,13 +6,11 @@ import {
   View, 
   Image,
   TextInput,
-  Button,
   TouchableOpacity,
   Dimensions
 } from "react-native";
-import ApiHelper from "../navigation/services/ApiHelper";
-import { useNavigation } from '@react-navigation/native';
-import { useToken } from "../navigation/context/TokenContext";
+import ApiHelper from "./services/ApiHelper";
+import { useToken } from "./context/TokenContext";
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,8 +19,7 @@ export default function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setToken } = useToken();
-  const navigation = useNavigation();
-
+  
   const handleSubmit = async (event) => {
     
     event.preventDefault();
@@ -37,8 +34,7 @@ export default function LogIn() {
           if (result.token) {
             setToken(result.token);
           }
-          navigation.navigate("Home");
-        });
+         });
     }
   }; 
 

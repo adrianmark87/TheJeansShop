@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Dimensions } from "react-native";
-import LogIn from "./LogInPage";
-import SignIn from "./SignInPage";
+import LogIn from "./LogIn";
+import SignUp from "./SignUp";
 
 const { width, height } = Dimensions.get("window");
 
@@ -19,7 +19,7 @@ export default function Welcome({ navigation }) {
       <Text style={styles.welcomeText}>Welcome to the Jeans Shop</Text>
       <TouchableOpacity
         style={[styles.button, { backgroundColor: "#809BBD" }]}
-        onPress={() => navigation.navigate("SignIn")}
+        onPress={() => navigation.navigate("SignUp")}
       >
         <Text style={styles.buttonText}>New user, Register here</Text>
       </TouchableOpacity>

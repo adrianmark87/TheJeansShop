@@ -12,10 +12,12 @@ import CartScreen from './screens/CartScreen';
 import FavouritesScreen from './screens/FavouritesScreen';
 import SearchScreen from './screens/SearchScreen';
 
-import Welcome from './WelcomePage';
-import SignIn from './SignInPage'; // Import your SignInPage component
-import LogIn from './LogInPage'; // Import your LogInPage component
-import Payment from './PaiementPage';
+import Welcome from './Welcome';
+import SignUp from './SignUp';
+import LogIn from './LogIn'; 
+import Payment from './Paiement';
+
+import { useToken } from "./context/TokenContext";
 
 
 
@@ -31,6 +33,10 @@ const Stack = createStackNavigator();
 
 
 export default function Main(){
+    const { token,setToken } = useToken();
+    // setToken(null) // To disconnect I have to uncomment this line
+    // Later I have to develop a function handleLogout to disconnect with a button, and set this Token to null when disconnecting.
+//console.log(token);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const handleLogin = () => {
         // Implement your authentication logic here
@@ -39,7 +45,7 @@ export default function Main(){
       };
     return(
        <NavigationContainer>
-        {isLoggedIn ? ( // Conditionally render either the AuthStack or your Tab Navigator
+        {token ? ( // Conditionally render either the AuthStack or your Tab Navigator
         <Tab.Navigator initialRouteName={homeName}
         screenOptions={({route})=>({
             tabBarIcon:({focused,color,size})=>{
@@ -63,14 +69,12 @@ export default function Main(){
             tabBarStyle: {
                 padding: 10,
                 height:70
-            }
+            },
+            tabBarActiveTintColor:'tomato',
+            tabBarInactiveTintColor:'grey',
+            tabBarLabelStyle:{ paddingBottom: 10, fontSize: 10 },
         })}
-            tabBarOptions={{
-            activeTintColor: 'tomato',
-            inactiveTintColor: 'grey',
-            labelStyle: { paddingBottom: 10, fontSize: 10 },
-            }}>
-
+          >
             <Tab.Screen name={homeName} component={HomeScreen}/>
             <Tab.Screen name={cartName} component={CartScreen}/>
             <Tab.Screen name={searchName} component={SearchScreen}/>
@@ -82,7 +86,7 @@ export default function Main(){
     <Stack.Navigator initialRouteName="Welcome">
       <Stack.Screen name="Welcome" component={Welcome} 
       />
-      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="LogIn" component={LogIn} />
       <Stack.Screen name="Payment" component={Payment} 
       />
