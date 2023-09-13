@@ -11,7 +11,7 @@ const validateUser = (data, forCreation = true) => {
       .presence(presence),
     phone: Joi.string().max(15).presence(presence),
     email: Joi.string().email().presence(presence),
-    adress: Joi.string().max(155).presence(presence),
+    address: Joi.string().max(155).presence(presence),
     zip_code: Joi.number().positive().presence(presence),
     city: Joi.string().max(155).presence(presence),
     password: Joi.string().max(155).presence(presence),

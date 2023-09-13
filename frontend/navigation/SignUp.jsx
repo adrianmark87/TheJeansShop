@@ -18,17 +18,17 @@ const { width, height } = Dimensions.get("window");
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
-    firstName: "Adrian",
-    lastName: "Marculescu",
-    birthDate: "1988-08-01",
-    phoneNo: "0616152895",
-    email: "test1@test.com",
+    first_name: "Adrian",
+    last_name: "Marculescu",
+    birth_date: "1988-08-01",
+    phone: "0616157899",
+    email: "testr11@test.com",
     address: "123 Main St",
-    zipCode: "69000",
+    zip_code: "69000",
     city: "lyon",
     password: "test",
     confirmPassword: "",
-    isAdmin: false,
+    is_admin: false,
   })
 
   const { setToken } = useToken();
@@ -38,41 +38,25 @@ export default function SignUp() {
   };
 
   const handleSubmitUser = async (event) => {
-    console.log("handleSubmitUser called");
     event.preventDefault();
-    const formUserData = new FormData();
-  
+     
     if (
-      formData.firstName &&
-      formData.lastName &&
-      formData.birthDate &&
-      formData.phoneNo &&
+      formData.first_name &&
+      formData.last_name &&
+      formData.birth_date &&
+      formData.phone &&
       formData.email &&
       formData.address &&
-      formData.zipCode &&
+      formData.zip_code &&
       formData.city &&
       formData.password      
     ) {
-        const userData = JSON.stringify({
-        first_name: formData.firstName,
-        last_name:formData.lastName,
-        birth_date: formData.birthDate,
-        phone: formData.phoneNo,
-        email: formData.email,
-        address: formData.address,
-        zip_code: formData.zipCode,
-        city: formData.city,
-        password: formData.password,
-        is_admin:formData.isAdmin
-    });
+        const userData = JSON.stringify(formData);
 
-    formUserData.append("data", userData);
-    console.log("userData:", userData);
-    console.log("formUserData:", formUserData);
-      
-      ApiHelper("/user", "POST", null, formUserData, "")
-      .then(() => {
-        ApiHelper("/login", "POST", null, JSON.stringify({ email, password }))
+      ApiHelper("/user", "POST", null, userData)
+      .then(resp => {
+        let {email, password} = formData;
+        ApiHelper("/login", "POST", null, JSON.stringify({email, password}))
           .then((response) => response.json())
           .then((result) => {
             console.log("Login result:", result); // Add this console log
@@ -104,8 +88,8 @@ export default function SignUp() {
           style={styles.TextInput}
           placeholder="First Name"
           placeholderTextColor="#003f5c"
-          onChangeText={(text) => setFormData({...formData, firstName: text})}
-          value={formData.firstName}
+          onChangeText={(text) => setFormData({...formData, first_name: text})}
+          value={formData.first_name}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -113,8 +97,8 @@ export default function SignUp() {
           style={styles.TextInput}
           placeholder="Last Name"
           placeholderTextColor="#003f5c"
-          onChangeText={(text) => setFormData({...formData, lastName: text})}
-          value={formData.lastName}
+          onChangeText={(text) => setFormData({...formData, last_name: text})}
+          value={formData.last_name}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -122,8 +106,8 @@ export default function SignUp() {
           style={styles.TextInput}
           placeholder="Birth Date (YYYY-MM-DD)"
           placeholderTextColor="#003f5c"
-          onChangeText={(text) => setFormData({...formData, birthDate: text})}
-          value={formData.birthDate}
+          onChangeText={(text) => setFormData({...formData, birth_date: text})}
+          value={formData.birth_date}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -131,8 +115,8 @@ export default function SignUp() {
           style={styles.TextInput}
           placeholder="Phone No."
           placeholderTextColor="#003f5c"
-          onChangeText={(text) => setFormData({...formData, phoneNo: text})}
-          value={formData.phoneNo}
+          onChangeText={(text) => setFormData({...formData, phone: text})}
+          value={formData.phone}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -158,8 +142,8 @@ export default function SignUp() {
           style={styles.TextInput}
           placeholder="Zip Code"
           placeholderTextColor="#003f5c"
-          onChangeText={(text) => setFormData({...formData, zipCode: text})}
-          value={formData.zipCode}
+          onChangeText={(text) => setFormData({...formData, zip_code: text})}
+          value={formData.zip_code}
 
         />
       </View>
@@ -195,13 +179,13 @@ export default function SignUp() {
       {(formData.confirmPassword !== formData.password || !formData.confirmPassword) && (
             <Text style={styles.errorText}>Please type the same password</Text>
           )}
-          {!formData.firstName ||
-          !formData.lastName ||
-          !formData.birthDate ||
-          !formData.phoneNo ||
+          {!formData.first_name ||
+          !formData.last_name ||
+          !formData.birth_date ||
+          !formData.phone ||
           !formData.email ||
           !formData.address ||
-          !formData.zipCode ||
+          !formData.zip_code ||
           !formData.city ||
           !formData.password        
            ? (
