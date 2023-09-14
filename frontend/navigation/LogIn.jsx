@@ -38,7 +38,6 @@ export default function LogIn() {
     }
   }; 
 
-
   return (
     <View style={styles.container}>
        <Image
