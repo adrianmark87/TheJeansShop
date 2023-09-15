@@ -8,17 +8,17 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function PersonScreen({ navigation }) {
 
-    const [isPressed, setIsPressed] = useState(false);
+    // const [isPressed, setIsPressed] = useState(false);
 
-    const handlePressIn = () => {
-      setIsPressed(true);
-    };
+    // const handlePressIn = () => {
+    //   setIsPressed(true);
+    // };
   
-    const handlePressOut = () => {
-      setIsPressed(false);
-    };
+    // const handlePressOut = () => {
+    //   setIsPressed(false);
+    // };
 
-    const buttonColor = isPressed ? "rgba(0, 51, 79, 0.6)" : "#00334F";
+    // const buttonColor = isPressed ? "rgba(0, 51, 79, 0.6)" : "#00334F";
 
     
 //     const [data, setData] = useState([]);
@@ -225,7 +225,15 @@ export default function PersonScreen({ navigation }) {
   </TouchableOpacity>
 </View>
 
-      <TouchableHighlight
+<TouchableOpacity style={styles.containedButton_test}>
+    <View style={styles.buttonContent}>
+    <MaterialIcons name="logout" size={24} color="white" />
+      <Text style={styles.containedButtonText}>Logout</Text>
+    </View>
+  </TouchableOpacity>
+ 
+
+      {/* <TouchableHighlight
   style={{ ...styles.buttonContainerLogout, backgroundColor: buttonColor }}
   onPress={() => {
     // Handle Logout button press
@@ -238,7 +246,7 @@ export default function PersonScreen({ navigation }) {
     <MaterialIcons name="logout" size={24} color="white" />
     <Text style={styles.buttonText}>Logout</Text>
   </View>
-</TouchableHighlight>
+</TouchableHighlight> */}
     </SafeAreaView>
   );
 }
@@ -298,6 +306,16 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginRight: "5%",
         marginLeft: "5%", // Add margin-right to create spacing between buttons
+      },
+      containedButton_test: {
+        backgroundColor: "#00334F",
+        borderRadius: 0,
+        height: 40,
+        width: "100%", // Adjust the width as needed to align the buttons
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 20,
+        
       },
       
       containedButtonText: {
