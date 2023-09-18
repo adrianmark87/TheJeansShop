@@ -29,7 +29,6 @@ export default function LogIn() {
       ApiHelper("/login", "POST", null, data)
         .then((response) => response.json())
         .then((result) => {
-          console.log("je suis result", result)
           console.error(result.token);
           if (result.token) {
             setToken(result.token);

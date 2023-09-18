@@ -8,18 +8,6 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function PersonScreen({ navigation }) {
 
-    // const [isPressed, setIsPressed] = useState(false);
-
-    // const handlePressIn = () => {
-    //   setIsPressed(true);
-    // };
-  
-    // const handlePressOut = () => {
-    //   setIsPressed(false);
-    // };
-
-    // const buttonColor = isPressed ? "rgba(0, 51, 79, 0.6)" : "#00334F";
-
     
 //     const [data, setData] = useState([]);
 
@@ -225,28 +213,13 @@ export default function PersonScreen({ navigation }) {
   </TouchableOpacity>
 </View>
 
-<TouchableOpacity style={styles.containedButton_test}>
+<TouchableOpacity style={styles.containedButton_Logout}>
     <View style={styles.buttonContent}>
     <MaterialIcons name="logout" size={24} color="white" />
       <Text style={styles.containedButtonText}>Logout</Text>
     </View>
   </TouchableOpacity>
  
-
-      {/* <TouchableHighlight
-  style={{ ...styles.buttonContainerLogout, backgroundColor: buttonColor }}
-  onPress={() => {
-    // Handle Logout button press
-  }}
-  onPressIn={handlePressIn}
-  onPressOut={handlePressOut}
-  underlayColor="rgba(0, 51, 79, 0.6)" // Color when button is pressed
->
-  <View style={styles.button}>
-    <MaterialIcons name="logout" size={24} color="white" />
-    <Text style={styles.buttonText}>Logout</Text>
-  </View>
-</TouchableHighlight> */}
     </SafeAreaView>
   );
 }
@@ -277,14 +250,6 @@ const styles = StyleSheet.create({
       fontSize: 16,
       color: '#666', // Replace with your text color
     },
-    buttonContainerLogout: {
-    //   flex: 1, // takes all the space
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 20,
-      backgroundColor:'#00334F',
-      marginBottom:10
-    },
       button: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -307,7 +272,7 @@ const styles = StyleSheet.create({
         marginRight: "5%",
         marginLeft: "5%", // Add margin-right to create spacing between buttons
       },
-      containedButton_test: {
+      containedButton_Logout: {
         backgroundColor: "#00334F",
         borderRadius: 0,
         height: 40,
@@ -315,6 +280,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: 20,
+        marginBottom : 5,
         
       },
       

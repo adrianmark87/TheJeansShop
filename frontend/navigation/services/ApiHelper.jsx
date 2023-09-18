@@ -16,10 +16,9 @@ const ApiHelper = async (
     body,
   };
 
-  console.log('qsdqdq');
   console.log(body);
 
-  return fetch(`http://192.168.1.71:5555${route}`, requestOptions);
+  return fetch(`http://192.168.1.77:5555${route}`, requestOptions);
    
 };
 
