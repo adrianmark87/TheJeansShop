@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, Text,TextInput, Image, Pressable, StyleSheet,TouchableOpacity,TouchableHighlight, } from 'react-native';
+import { SafeAreaView, View, Text,TextInput, Image,ScrollView, Pressable, StyleSheet,TouchableOpacity,TouchableHighlight, } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 // import jwt_decode from "jwt-decode";
@@ -105,6 +105,7 @@ export default function PersonScreen({ navigation }) {
         <Text style={styles.emailText}>joe@bloggs.com</Text>
       </View>
         <View>
+        <View style={styles.inputBox}>
         <View style={styles.inputContainer}>
   <TextInput
     style={styles.TextInput}
@@ -114,6 +115,7 @@ export default function PersonScreen({ navigation }) {
     value={formData.first_name}
   />
 </View>
+
 <View style={styles.inputContainer}>
   <TextInput
     style={styles.TextInput}
@@ -198,6 +200,7 @@ export default function PersonScreen({ navigation }) {
   />
 </View>
 </View>
+</View>
 <View style={styles.buttonsEditDelete}>
   <TouchableOpacity style={styles.containedButton}>
     <View style={styles.buttonContent}>
@@ -216,7 +219,7 @@ export default function PersonScreen({ navigation }) {
 <TouchableOpacity style={styles.containedButton_Logout}>
     <View style={styles.buttonContent}>
     <MaterialIcons name="logout" size={24} color="white" />
-      <Text style={styles.containedButtonText}>Logout</Text>
+      <Text style={styles.buttonText}>Logout</Text>
     </View>
   </TouchableOpacity>
  
@@ -301,17 +304,20 @@ const styles = StyleSheet.create({
         marginRight: 8, // Add horizontal margin to the icon as needed
         },
 
-    // inputContainer: {
-    //     backgroundColor: "#809BBD",
-    //     borderRadius: 30,
-    //     height: 45,
-    //     marginBottom: 20,
-    //     alignItems: "center",
-    //     },
+    inputContainer: {
+        backgroundColor: "#809BBD",
+        borderRadius: 30,
+        height: 35,
+        marginBottom: 20,
+        alignItems: "center",
+        },
+        inputBox:{
+         backgroundColor: "#cccccc"
+        },
     // TextInput: {
     //   height: 50,
     //   width: "100%",
     //   padding: 10,
-    //   marginBottom: 20,
+    //   marginBottom: 10,
     // },
   });
