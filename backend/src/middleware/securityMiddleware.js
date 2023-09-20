@@ -6,6 +6,8 @@ const fs = require("fs");
 const privateKey = fs.readFileSync("jwtRS256.key");
 
 function verifyToken(req, res, next) {
+  console.log("VERIFYTOKEN");
+
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) {
@@ -35,6 +37,7 @@ const verifyTokenById = (req, res, next) => {
 
 const verifyTokenByRoleAdminOrSelfId = (req, res, next) => {
   try {
+    console.log("VERIFYTOKENBYADMINORSELFID");
     if (
       !(
         req.payload.is_admin ||

@@ -30,7 +30,7 @@ function emailSender({ email, fullName = null }, { subject, body }) {
       console.log(result.body);
     })
     .catch((err) => {
-      console.log(err.statusCode);
+      console.log(err);
     });
 }
 

@@ -42,6 +42,20 @@ function login({ email, password }) {
     });
 }
 
+async function updatePasswordTokenAndDateOfExpiration(email) {
+  const { token, dateOfExpiration } = forgottenPasswordTokenGenerator();
+
+  connection
+    .promise()
+    .query(
+      "UPDATE user SET password_token = ?, password_token_expiration = ? where email = ?",
+      [token, dateOfExpiration, email]
+    )
+    .catch((error) => console.log(error));
+
+  return token;
+}
+
 function passwordForgotten({ email }) {
   return connection
     .promise()
@@ -56,20 +70,6 @@ function passwordForgotten({ email }) {
 
       return { status: 200, message: "success" };
     });
-}
-
-async function updatePasswordTokenAndDateOfExpiration(email) {
-  const { token, dateOfExpiration } = forgottenPasswordTokenGenerator();
-
-  connection
-    .promise()
-    .query(
-      "UPDATE user SET password_token = ?, password_token_expiration = ? where email = ?",
-      [token, dateOfExpiration, email]
-    )
-    .catch((error) => console.log(error));
-
-  return token;
 }
 
 module.exports = {

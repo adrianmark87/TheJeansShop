@@ -17,7 +17,18 @@ async function passwordVerification(password, hashedPassword) {
   }
 }
 
+function forgottenPasswordTokenGenerator() {
+  const token =
+    Math.random().toString(36).substring(2) +
+    Math.random().toString(36).substring(2);
+  const dateOfExpiration = new Date();
+  dateOfExpiration.setDate(dateOfExpiration.getDate() + 1);
+
+  return { token, dateOfExpiration };
+}
+
 module.exports = {
   passwordHasher,
   passwordVerification,
+  forgottenPasswordTokenGenerator,
 };

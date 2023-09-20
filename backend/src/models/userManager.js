@@ -53,9 +53,10 @@ class userManager extends AbstractManager {
       });
   }
 
-  update(id, user) {
+  async update(id, user) {
     const sqlSets = generateSqlSets(user);
-
+    // console.log("userrrrr", user);
+    user.password = await passwordHasher(user.password);
     return this.connection.query(
       `UPDATE ${this.table} SET ${sqlSets} WHERE id = ?`,
       [...Object.values(user), id]
