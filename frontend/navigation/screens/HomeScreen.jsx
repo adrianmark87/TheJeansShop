@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image,ScrollView, Dimensions } from 'react-native';
 import Category from './components/Explore/Category'; 
-import JeansWomen from './components/Explore/JeansWomen';
+import JeansCardStyle from './components/Explore/JeansCardStyle';
 
 const {height,width} = Dimensions.get('window')
 
@@ -54,26 +54,26 @@ export default function HomeScreen({navigation}){
       <View style={{marginTop:40}}>
         <Text style={{fontSize:24, fontWeight:'700', paddingHorizontal:20}}>Articles</Text>
         <View style={{paddingHorizontal:20, marginTop:20, flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
-          <JeansWomen width={width}
+          <JeansCardStyle width={width}
           name="501® International French Limited Edition"
           discount="-30% Levi’s® Red Tab™"
           price={82}
-          rating={4}/>
-            <JeansWomen width={width}
+          />
+            {/* <JeansCardStyle width={width}
           name="501® International French Limited Edition"
           discount="-30% Levi’s® Red Tab™"
           price={82}
-          rating={4}/>
-            <JeansWomen width={width}
+          />
+            <JeansCardStyle width={width}
           name="501® International French Limited Edition"
           discount="-30% Levi’s® Red Tab™"
           price={82}
-          rating={4}/>
-            <JeansWomen width={width}
+          />
+            <JeansCardStyle width={width}
           name="501® International French Limited Edition"
           discount="-30% Levi’s® Red Tab™"
           price={82}
-          rating={4}/>    
+          />     */}
         </View>
       </View>
     </ScrollView>
