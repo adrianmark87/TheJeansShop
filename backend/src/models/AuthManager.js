@@ -3,6 +3,10 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const connection = require("./database");
 const { passwordVerification } = require("../services/passwordHelper");
+const {
+  forgottenPasswordTokenGenerator,
+} = require("../services/passwordHelper");
+const kindChecker = require("../services/EmailSenderService");
 
 const privateKey = fs.readFileSync("jwtRS256.key");
 
@@ -38,6 +42,37 @@ function login({ email, password }) {
     });
 }
 
+async function updatePasswordTokenAndDateOfExpiration(email) {
+  const { token, dateOfExpiration } = forgottenPasswordTokenGenerator();
+
+  connection
+    .promise()
+    .query(
+      "UPDATE user SET password_token = ?, password_token_expiration = ? where email = ?",
+      [token, dateOfExpiration, email]
+    )
+    .catch((error) => console.log(error));
+
+  return token;
+}
+
+function passwordForgotten({ email }) {
+  return connection
+    .promise()
+    .query("SELECT * FROM user WHERE email = ?", [email])
+    .then(async ([rows]) => {
+      if (rows.length === 0) {
+        return { status: 404, message: "Email doesn't exist" };
+      }
+
+      const token = await updatePasswordTokenAndDateOfExpiration(email);
+      kindChecker("PASSWORD_FORGOTTEN", { email, token });
+
+      return { status: 200, message: "success" };
+    });
+}
+
 module.exports = {
   login,
+  passwordForgotten,
 };

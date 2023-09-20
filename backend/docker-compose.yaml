@@ -1,0 +1,33 @@
+    # backend:
+  #   build: ./backend
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   ports:
+  #     - 5050:5000
+  #   command: npm run dev
+  #   volumes:
+  #     - ./backend/src/:/app/src/
+  db:
+    image: mysql
+    container_name: db
+    restart: always
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: "jeans_shop"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "875895"
+      MYSQL_ROOT_PASSWORD: "875895"
+    expose:
+      - 3308
+    volumes:
+      - ./db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  db:

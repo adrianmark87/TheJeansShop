@@ -16,33 +16,13 @@ const ApiHelper = async (
     body,
   };
 
-  console.log('qsdqdq');
   console.log(body);
-
-  return fetch(`http://192.168.1.77:5555${route}`, requestOptions);
+// Toujours vérifier que le url du front (Opening exp://172.20.10.3:8081 on Pixel_7_API_30) correspond avec ce qu'il y a dans le fetch
+  return fetch(`http://192.168.1.126:5555${route}`, requestOptions);
    
 };
 
 export default ApiHelper;
 
 
-// import axios from "axios";
 
-// const ApiHelper = async (
-//   route,
-//   method,
-//   data = null,
-//   format = "application/json"
-// ) => {
-//   return axios({
-//     method,
-//     url: `http://localhost/api/${route}`,
-//     data,
-//     headers: {
-//       "content-type": format,
-//       Accept: "application/json",
-//     },
-//   });
-// };
-
-// export default ApiHelper;
