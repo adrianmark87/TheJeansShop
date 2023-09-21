@@ -1,19 +1,43 @@
 import React, { useState } from 'react';
 import { View, Text, Image,ScrollView, Dimensions } from 'react-native';
 import Category from './components/Explore/Category'; 
-import JeansWomen from './components/Explore/JeansWomen';
+import JeansCardStyle from './components/Explore/JeansCardStyle';
+import ArticleSelected from './ArticleSelected';
 
 const {height,width} = Dimensions.get('window')
 
-export default function HomeScreen({navigation}){
+export default function HomeScreen(){
 
   const defaultSelectedItem = {
     imageUri: require('../../assets/jeans_women.jpeg'), // First image
     name: 'Jeans women', // First image name
   };
   const [selectedItem, setSelectedItem] = useState(defaultSelectedItem);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [articleData, setArticleData] = useState([]);
   const handleSelectItem = (imageUri,name) => {
     setSelectedItem({imageUri,name});
+
+    let selectedCategory;
+    switch (name) {
+      case 'Jeans men':
+        selectedCategory = 'Jeans Men';
+        break;
+      case 'Jeans women':
+        selectedCategory = 'Jeans Women';
+        break;
+      case 'Jeans kids - boys':
+        selectedCategory = 'Jeans kids - boys';
+        break;
+      case 'Jeans kids - girls':
+        selectedCategory = 'Jeans kids - girls';
+        break;
+      default:
+        selectedCategory = ''; // Default or unknown category
+    }
+  
+    // Set the selected category
+    setSelectedCategory(selectedCategory);
   }
   return(
             
@@ -25,7 +49,8 @@ export default function HomeScreen({navigation}){
                       showsHorizontalScrollIndicator={false}>
            <Category imageUri={require('../../assets/jeans_women.jpeg')} name='Jeans women' onSelectItem={handleSelectItem}/>
            <Category imageUri={require('../../assets/jeans_men.jpeg')} name='Jeans men' onSelectItem={handleSelectItem}/>
-           <Category imageUri={require('../../assets/sweaters_kids.jpeg')} name='Sweaters kids' onSelectItem={handleSelectItem}/>
+           <Category imageUri={require('../../assets/kids_jeans.jpg')} name='Jeans kids - boys' onSelectItem={handleSelectItem}/>
+           <Category imageUri={require('../../assets/kids_jeans.jpg')} name='Jeans kids - girls' onSelectItem={handleSelectItem}/>
           </ScrollView>
         </View>
         <View style={{marginTop:40,paddingHorizontal:20}}>
@@ -54,28 +79,20 @@ export default function HomeScreen({navigation}){
       <View style={{marginTop:40}}>
         <Text style={{fontSize:24, fontWeight:'700', paddingHorizontal:20}}>Articles</Text>
         <View style={{paddingHorizontal:20, marginTop:20, flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
-          <JeansWomen width={width}
+          <JeansCardStyle width={width}
           name="501® International French Limited Edition"
           discount="-30% Levi’s® Red Tab™"
           price={82}
-          rating={4}/>
-            <JeansWomen width={width}
+          />
+            <JeansCardStyle width={width}
           name="501® International French Limited Edition"
           discount="-30% Levi’s® Red Tab™"
           price={82}
-          rating={4}/>
-            <JeansWomen width={width}
-          name="501® International French Limited Edition"
-          discount="-30% Levi’s® Red Tab™"
-          price={82}
-          rating={4}/>
-            <JeansWomen width={width}
-          name="501® International French Limited Edition"
-          discount="-30% Levi’s® Red Tab™"
-          price={82}
-          rating={4}/>    
+          />
+          
         </View>
       </View>
+        <ArticleSelected selectedCategory={selectedCategory} setArticleData={setArticleData} />
     </ScrollView>
     
     )
