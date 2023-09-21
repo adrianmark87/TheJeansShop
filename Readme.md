@@ -35,3 +35,29 @@ Dans le .env le port DB_PORT=3308 à utiliser c'est le port de gauche de mon doc
       - 3308:3306 (C'est le port extérieur - d'exposition, le port de droite c'est le poet de ma machine)
 
 Le user mysql et le mot de passe dans le fichier docker-compose.yaml et le .env doivent coïncider
+
+Installation cypress dans le dossier backend: 
+npm install cypress --save-dev
+
+rajout au  package.json
+ {
+  "scripts": {
+    "cy:open": "cypress open"
+  }
+}
+
+
+A la racine du back crer un fichier jsconfig.json qui va contenir
+{
+    "include": [
+      "./node_modules/cypress",
+      "cypress/**/*.js"
+    ]
+  }
+
+Pour initialiser le dossier cypress à l'intérieur du dossier :
+npx cypress open
+
+
+  Démarrer les tests : 
+npm run cy:open
