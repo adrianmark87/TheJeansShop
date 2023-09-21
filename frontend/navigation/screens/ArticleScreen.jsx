@@ -1,36 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView, Dimensions, StyleSheet } from 'react-native';
 
+
+const EXPO_PUBLIC_ADDRESS_BACK_END = "http://192.168.1.71:5555";
+
 const { height, width } = Dimensions.get('window');
 
-export default function Article() {
+export default function ArticleScreen() {
   const [reload, setReload] = useState(false);
-  const [articleData, setArticleData] = useState({
-    name: '',
-    category: '',
-    size: '',
-    gender: '',
-    isAdult: false, //Ici ça doit être false ou true par défaut ?
-    colour: '',
-    isFavourite: false, //Ici ça doit être false ou true par défaut
-    price: 0, //Ici comment je dois le délcarer ? 
-    discount: 0, //Ici comment je dois le délcarer ? 
-    quantityStock: 0, //Ici comment je dois le délcarer ? 
-    });
-
-    const { token,setToken } = useToken();
-    let userId = "";
-
-    if (token) {
-        const decodedToken = jwt_decode(token);
-        userId = decodedToken.userId;
-      }
+  const [articleData, setArticleData] = useState([]);
+ 
 
   useEffect(() => {
-    // console.log(`${EXPO_PUBLIC_ADDRESS_BACK_END}/article/${articleId}`)
-    fetch(`${EXPO_PUBLIC_ADDRESS_BACK_END}/article/${articleId}`)
+    fetch(`${EXPO_PUBLIC_ADDRESS_BACK_END}/article/`)
     .then((response) => response.json())
     .then((response) => {
+      // console.log("Response Data:", response);
         setArticleData(response);
     })
     .catch((error) => console.warn(error));
@@ -43,36 +28,17 @@ export default function Article() {
         <Text style={{ fontSize: 24, fontWeight: '700', paddingHorizontal: 20 }}>
           Qu'est-ce que vous recherchez ?
         </Text>
-        <View style={{ height: 130, marginTop: 20 }}>
-          {/* Category section (similar to HomeScreen) */}
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {/* Render category items */}
-            <Category imageUri={/* Category image URI */} name={/* Category name */} />
-            {/* Add more Category components as needed */}
-          </ScrollView>
-        </View>
-        <View style={{ marginTop: 40, paddingHorizontal: 20 }}>
-          {/* Display article information */}
-          <Text style={{ fontSize: 24, fontWeight: '700' }}>{articleData.name}</Text>
-          {/* Add other article information fields here */}
-          <Text>Category: {articleData.category}</Text>
-          <Text>Size: {articleData.size}</Text>
-          <Text>Gender: {articleData.gender}</Text>
-          <Text>Price: ${articleData.price}</Text>
-          {/* Add more article information fields as needed */}
-        </View>
       </View>
-      {/* Additional sections for articles (similar to HomeScreen) */}
-      <View style={{ marginTop: 40 }}>
-        <Text style={{ fontSize: 24, fontWeight: '700', paddingHorizontal: 20 }}>
-          Articles
-        </Text>
-        <View style={{ paddingHorizontal: 20, marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-          {/* Render ArticleCardStyle components (similar to HomeScreen) */}
-          <ArticleCardStyle width={width} name={articleData.name} discount={`-${articleData.discount}% Levi’s® Red Tab™`} price={articleData.price} />
-          {/* Add more ArticleCardStyle components as needed */}
+      {/* Render articles */}
+      {articleData.map((article) => (
+        <View key={article.id} style={{ marginTop: 40, paddingHorizontal: 20 }}>
+          {Object.entries(article).map(([key, value]) => (
+            <Text key={key}>
+              {key}: {value}
+            </Text>
+          ))}
         </View>
-      </View>
+      ))}
     </ScrollView>
   );
 }

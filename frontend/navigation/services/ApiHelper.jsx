@@ -18,7 +18,7 @@ const ApiHelper = async (
 
   console.log(body);
 // Toujours vérifier que le url du front (Opening exp://172.20.10.3:8081 on Pixel_7_API_30) correspond avec ce qu'il y a dans le fetch
-  return fetch(`http://192.168.1.126:5555${route}`, requestOptions);
+  return fetch(`http://192.168.1.71:5555${route}`, requestOptions);
    
 };
 
