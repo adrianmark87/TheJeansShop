@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView, Dimensions, StyleSheet } from 'react-native';
+import JeansCardStyle from './components/Explore/JeansCardStyle';
 
 
 const EXPO_PUBLIC_ADDRESS_BACK_END = "http://192.168.1.71:5555";
@@ -37,21 +38,28 @@ export default function ArticleSelected({ selectedCategory }) {
 
   return (
     <ScrollView scrollEventThrottle={16}>
-      <View style={{ flex: 1, backgroundColor: 'white', paddingTop: 20 }}>
-        <Text style={{ fontSize: 24, fontWeight: '700', paddingHorizontal: 20 }}>
-          Qu'est-ce que vous recherchez ?
-        </Text>
-      </View>
-      {/* Render all calumns in the articles */}
-      {articleData.map((article) => (
-  <View key={article.id} style={styles.articleContainer}>
-    <Text style={styles.articleName}>{article.name}</Text>
-    {article.discount > 0 && (
-      <Text style={styles.articleDiscount}>-{article.discount}% Levi’s® Red Tab™</Text>
-    )}
-    <Text style={styles.articlePrice}>Price: {article.price}</Text>
-  </View>
-))}
+      <View style={{marginTop:40}}>
+        <Text style={{fontSize:24, fontWeight:'700', paddingHorizontal:20}}>Articles</Text>
+      <View
+          style={{
+          paddingHorizontal: 20,
+          marginTop: 20,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+        }}
+      >
+     {articleData.map((article) => (
+        <JeansCardStyle
+        key={article.id}
+          width={width} // Pass the width prop to JeansCardStyle
+          name={article.name}
+          discount={`-${article.discount}% Levi’s® Red Tab™`}
+          price={article.price}
+        />
+        ))}
+        </View>
+        </View>
     </ScrollView>
   );
 }
