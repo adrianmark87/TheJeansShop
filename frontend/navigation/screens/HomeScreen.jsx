@@ -76,22 +76,7 @@ export default function HomeScreen(){
       </View>
           </View>
       </View>
-      <View style={{marginTop:40}}>
-        <Text style={{fontSize:24, fontWeight:'700', paddingHorizontal:20}}>Articles</Text>
-        <View style={{paddingHorizontal:20, marginTop:20, flexDirection:'row', justifyContent:'space-between', flexWrap:'wrap'}}>
-          <JeansCardStyle width={width}
-          name="501® International French Limited Edition"
-          discount="-30% Levi’s® Red Tab™"
-          price={82}
-          />
-            <JeansCardStyle width={width}
-          name="501® International French Limited Edition"
-          discount="-30% Levi’s® Red Tab™"
-          price={82}
-          />
-          
-        </View>
-      </View>
+     
         <ArticleSelected selectedCategory={selectedCategory} setArticleData={setArticleData} />
     </ScrollView>
     
