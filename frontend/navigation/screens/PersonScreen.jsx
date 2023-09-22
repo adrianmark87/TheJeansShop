@@ -170,7 +170,7 @@
       style={styles.TextInput}
       placeholder="Email"
       placeholderTextColor="#003f5c"
-      onChangeText={(text) => setData({ ...formData, email: text })}
+      onChangeText={(text) => setFormData({ ...formData, email: text })}
       value={formData.email}
     />
   </View>

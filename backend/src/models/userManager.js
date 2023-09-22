@@ -16,7 +16,7 @@ class userManager extends AbstractManager {
     const hashedPassword = await passwordHasher(user.password);
     return this.connection
       .query(
-        `insert into ${this.table} (first_name, last_name, birth_date, phone, email, address, zip_code, city, password, is_admin, subscription_date, expo_push_token) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(),?)`,
+        `insert into ${this.table} (first_name, last_name, birth_date, phone, email, address, zip_code, city, password, is_admin, subscription_date, expo_push_token) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)`,
         [
           user.first_name,
           user.last_name,
@@ -46,10 +46,10 @@ class userManager extends AbstractManager {
           fullName: `${user.first_name} ${user.last_name}`,
         });
 
-        return { status: 201, message: bodyResponse };
+        return [{ status: 201, message: bodyResponse }]; // Wrap the object in an array
       })
       .catch((error) => {
-        return { status: 500, message: error };
+        return [{ status: 500, message: error }]; // Wrap the error in an array
       });
   }
 

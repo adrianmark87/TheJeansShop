@@ -1,9 +1,11 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const router = require("./router");
 
 const app = express();
+app.use(cookieParser());
 
 // use some application-level middlewares
 // No need for cors in React Native
