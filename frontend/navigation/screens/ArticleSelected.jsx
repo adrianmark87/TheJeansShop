@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, Dimensions, StyleSheet } from 'react-nat
 import JeansCardStyle from './components/Explore/JeansCardStyle';
 
 
-const EXPO_PUBLIC_ADDRESS_BACK_END = "http://192.168.1.71:5555";
+const EXPO_PUBLIC_ADDRESS_BACK_END = "http://172.20.10.3:5555";
 
 const { height, width } = Dimensions.get('window');
 
