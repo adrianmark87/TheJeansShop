@@ -1,9 +1,13 @@
+Avant d'écrire npm run dev il faut lancer 'docker compose up -d'. S'il y a dèja d'autres components montées il faut faire 'docker ps' et après 'docker stop id du container'
 npm run dev - lancement du backend
 npx expo start - lancement du frontend
 
 Login : test@test.com
 Pass : test
 
+Pour build un volume et un container : (au démarage d'un projet, ou si on a effacé le volume) 
+Le volume permet de garder la data de la DB même si on a étéint 
+docker compose up -d --build
 Pour lancer docker : 
 docker compose up -d
 
@@ -13,7 +17,7 @@ docker compose ps
 Pour arrêter un container : 
 docker compose stop
 
-Pour entrer dans mon container : docker compose exec db sh (Pour sortir exit + Enter) le 'db' ici c'est le container_name dans mon fichier docker-compose.yaml
+Pour entrer dans mon container : 'docker compose exec db sh' (Pour sortir exit + Enter) le 'db' ici c'est le container_name dans mon fichier docker-compose.yaml
 Une fois cette commande lancée : on se connecte à la db : dans mon cas mysql -u adrianmark87 -p
 Pass : 875875
 Une fois entrées dans la db, ici on entre les données qui nous intéressent. Même si on sort de a db, ou on arrête le container, comme on a crée un volume les données vont restées sauvegardées (sauf si on efface le volume)
@@ -25,7 +29,7 @@ docker compose logs
 Pour l'envoi des mails : il faut changer par Mailtrap et Email JS, car MailJet a banni mon compte.
 
 Si je n'arrive plus a faire tourner l'emulateur android et je dois élibérer de l'espace sur ma partition : 
-Wipe android emulator data - Dans androit studio
+Wipe android emulator data - Dans android studio
 Dans le terminal : 
 docker image ls 
 docker image ps
@@ -61,3 +65,5 @@ npx cypress open
 
   Démarrer les tests : 
 npm run cy:open
+
+*Problème à regler: j'ai un fichier database.js et un index.js en doublon qui font la même chose. Le problème si j'efface le database.js il est relié avec d'autres fichiers.

@@ -1,5 +1,7 @@
 describe("API Test", () => {
   let email;
+  let token; // Define token variable here
+
   it("should register a new user", () => {
     const random4DigitNumber = Math.floor(1000 + Math.random() * 9000);
 
@@ -39,33 +41,21 @@ describe("API Test", () => {
         email, // Use the email from the registration test
         password,
       },
-    }).then((response) => {
-      expect(response.status).to.equal(200);
-      // Assuming your API returns a JWT token, you can save it for future requests
-      console.log(response.headers);
-      const token = response.headers.get("set-cookie");
-      expect(token).to.exist;
-
-      // You can save the token in a Cypress custom command or context for future use
-      cy.wrap(token).as("authToken");
-    });
+    })
+      .then((response) => {
+        expect(response.status).to.equal(200);
+        // Retrieve the cookie by name "token"
+        cy.getCookie("token").then((cookie) => {
+          token = cookie.value; // Assign the token here
+          expect(token).to.exist;
+          console.log("Token Value:", token);
+        });
+      })
+      .then(() => {
+        // You can save the token in a Cypress custom command or context for future use
+        cy.wrap(token).as("authToken");
+      });
   });
 });
 
-// login works but I should recover the cookies and not the token
-// cy.request({
-//   method: "POST",
-//   url: `http://localhost:5555/login`,
-//   body: {
-//     email, // Use the email from the registration test
-//     password,
-//   },
-// }).then((response) => {
-//   expect(response.status).to.equal(200);
-//   // Assuming your API returns a JWT token, you can save it for future requests
-//   const { token } = response.body;
-//   expect(token).to.exist;
-
-//   // You can save the token in a Cypress custom command or context for future use
-//   cy.wrap(token).as("authToken");
-// });
+export { token };
