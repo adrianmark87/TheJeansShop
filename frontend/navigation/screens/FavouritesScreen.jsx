@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet,Button } from 'react-native';
 import JeansCardStyle from '../screens/components/Explore/JeansCardStyle';
 
 const EXPO_PUBLIC_ADDRESS_BACK_END = "http://192.168.1.71:5555";
@@ -9,16 +9,13 @@ const FavouritesScreen = ({}) => {
   const [reload, setReload] = useState(false);
 
   const fetchFavoriteArticles = async () => {
-    console.log('coucou');
-    try {
+       try {
         const response = await fetch(`${EXPO_PUBLIC_ADDRESS_BACK_END}/article`);
         if (response.ok) {
           const data = await response.json();
-          console.log('All articles:', data);
-          // Filter the articles with is_favourite === 1
+         // Filter the articles with is_favourite === 1
           const favoriteArticles = data.filter((article) => article.is_favourite === 1);
-          console.log('Favorite articles:', favoriteArticles);
-          setFavoriteArticles(favoriteArticles);
+             setFavoriteArticles(favoriteArticles);
         } else {
           throw new Error('Failed to fetch favorite articles');
         }
@@ -29,27 +26,33 @@ const FavouritesScreen = ({}) => {
 
   useEffect(() => {
     // Fetch favorite articles when the component mounts
+    console.log('Reload value inside useEffect:', reload);
     fetchFavoriteArticles();
-  }, []);
+  }, [reload]);
 
+  // const handleReloadClick = () => {
+  //   // Toggle the reload state between true and false
+  //   setReload((prevReload) => !prevReload);
+  // };
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.heading}>Favorite Articles</Text>
         <View style={styles.cardsContainer}>
-          {favoriteArticles.map((article) => (
-            <View
-              key={article.id}
-              name={article.name}
-              discount={`-${article.discount}% Levi’s® Red Tab™`}
-              price={article.price}
-              
-              // Add other props and event handlers as needed
-            />
-          ))}
+      
+        {favoriteArticles.map((article) => (
+  <View key={article.id} style={styles.articleContainer}>
+    <Text style={styles.articleName}>{article.name}</Text>
+    <Text style={styles.articleDiscount}>{`-${article.discount}% Levi’s® Red Tab™`}</Text>
+    <Text style={styles.articlePrice}>{`Price: $${article.price}`}</Text>
+    {/* Add other props and event handlers as needed */}
+  </View>
+))}
+
         </View>
       </View>
-    </ScrollView>
+      {/* <Button title="Reload Articles" onPress={handleReloadClick} /> */}
+          </ScrollView>
   );
 };
 
