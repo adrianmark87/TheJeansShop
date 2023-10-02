@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet,Button } from 'react-native';
 import JeansCardStyle from '../screens/components/Explore/JeansCardStyle';
 
-const EXPO_PUBLIC_ADDRESS_BACK_END = "http://192.168.1.71:5555";
+const backendAdress = process.env.EXPO_PUBLIC_ADDRESS_BACK_END;
 
 const FavouritesScreen = ({}) => {
   const [favoriteArticles, setFavoriteArticles] = useState([]);
@@ -10,7 +10,7 @@ const FavouritesScreen = ({}) => {
 
   const fetchFavoriteArticles = async () => {
        try {
-        const response = await fetch(`${EXPO_PUBLIC_ADDRESS_BACK_END}/article`);
+        const response = await fetch(`${backendAdress}/article`);
         if (response.ok) {
           const data = await response.json();
          // Filter the articles with is_favourite === 1
@@ -30,10 +30,10 @@ const FavouritesScreen = ({}) => {
     fetchFavoriteArticles();
   }, [reload]);
 
-  // const handleReloadClick = () => {
-  //   // Toggle the reload state between true and false
-  //   setReload((prevReload) => !prevReload);
-  // };
+  const handleReloadClick = () => {
+    // Toggle the reload state between true and false
+    setReload((prevReload) => !prevReload);
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -51,7 +51,7 @@ const FavouritesScreen = ({}) => {
 
         </View>
       </View>
-      {/* <Button title="Reload Articles" onPress={handleReloadClick} /> */}
+      <Button title="Reload Articles" onPress={handleReloadClick} />
           </ScrollView>
   );
 };

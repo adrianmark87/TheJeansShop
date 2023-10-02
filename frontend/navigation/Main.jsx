@@ -18,6 +18,7 @@ import LogIn from './LogIn';
 import Payment from './Paiement';
 
 import { useToken } from "./context/TokenContext";
+import { FavoriteArticlesProvider } from './context/FavouritesArticlesContext';
 
 
 
@@ -46,6 +47,7 @@ export default function Main(){
     return(
        <NavigationContainer>
         {token ? ( // Conditionally render either the AuthStack or your Tab Navigator
+         <FavoriteArticlesProvider>
         <Tab.Navigator initialRouteName={homeName}
         screenOptions={({route})=>({
             tabBarIcon:({focused,color,size})=>{
@@ -81,7 +83,7 @@ export default function Main(){
             <Tab.Screen name={favouritesName} component={FavouritesScreen}/>
             <Tab.Screen name={personName} component={PersonScreen}/>
             
-        </Tab.Navigator>  ) : (
+        </Tab.Navigator></FavoriteArticlesProvider>  ) : (
     // Auth screens
     <Stack.Navigator initialRouteName="Welcome">
       <Stack.Screen name="Welcome" component={Welcome} 

@@ -36,7 +36,7 @@ const verifyTokenById = (req, res, next) => {
 
 const verifyTokenByRoleAdminOrSelfId = (req, res, next) => {
   try {
-    console.log("VERIFYTOKENBYADMINORSELFID");
+    console.log("coucou");
     if (
       !(
         req.payload.is_admin ||

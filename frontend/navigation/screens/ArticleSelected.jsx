@@ -4,7 +4,8 @@ import JeansCardStyle from './components/Explore/JeansCardStyle';
 import { AntDesign } from '@expo/vector-icons';
 import ArticleScreen from './ArticleScreen';
 
-const EXPO_PUBLIC_ADDRESS_BACK_END = "http://192.168.1.71:5555";
+const backendAdress = process.env.EXPO_PUBLIC_ADDRESS_BACK_END;
+
 
 const { height, width } = Dimensions.get('window');
 
@@ -23,7 +24,7 @@ const [modalOpen,setModalOpen]=useState(false);
   };
 
     useEffect(() => {
-    fetch(`${EXPO_PUBLIC_ADDRESS_BACK_END}/article/`)
+    fetch(`${backendAdress}/article/`)
       .then((response) => response.json())
       .then((response) => {
         // Filter articles based on selectedCategory
@@ -65,7 +66,7 @@ const [modalOpen,setModalOpen]=useState(false);
   const updateFavoriteStatus = (article, isFavorite) => {
     // You can make a PUT request to update the favorite status on the server
     // Use the `article` object and `isFavorite` value to update the server data
-    fetch(`${EXPO_PUBLIC_ADDRESS_BACK_END}/article/${article.id}`, {
+    fetch(`${backendAdress}/article/${article.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -73,6 +74,8 @@ const [modalOpen,setModalOpen]=useState(false);
       body: JSON.stringify({ is_favourite: isFavorite }),
     })
       .then((response) => {
+        console.log('coucou',response.status);
+        console.log('Article Object:', article);
         if (response.ok) {
           // Handle success
           console.log('Favorite status updated successfully');
