@@ -1,6 +1,6 @@
 Avant d'écrire npm run dev il faut lancer 'docker compose up -d'. S'il y a dèja d'autres components montées il faut faire 'docker ps' et après 'docker stop id du container'
 npm run dev - lancement du backend
-npx expo start - lancement du frontend
+npx expo - lancement du frontend
 
 Login : test@test.com
 Pass : test

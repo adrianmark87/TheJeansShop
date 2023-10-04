@@ -35,7 +35,7 @@ const findOneFavourite = (req, res) => {
 
 const insertFavourite = (req, res) => {
   const { user_id, article_id } = req.body;
-
+  console.log(req.body);
   const favourite = {
     user_id,
     article_id,

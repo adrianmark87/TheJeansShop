@@ -10,7 +10,6 @@ const validateArticle = (data, forCreation = true) => {
     gender: Joi.string().max(255).presence(presence),
     is_adult: Joi.boolean().presence(presence),
     colour: Joi.string().max(255).presence(presence),
-    is_favourite: Joi.boolean().presence(presence),
     price: Joi.number().positive().presence(presence),
     discount: Joi.number().positive().presence(presence),
     quantity_stock: Joi.number().positive().presence(presence),

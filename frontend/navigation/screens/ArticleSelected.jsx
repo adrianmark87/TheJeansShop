@@ -3,6 +3,9 @@ import { View, Text, Image, ScrollView, Dimensions, StyleSheet, Modal,TouchableO
 import JeansCardStyle from './components/Explore/JeansCardStyle';
 import { AntDesign } from '@expo/vector-icons';
 import ArticleScreen from './ArticleScreen';
+import ApiHelper from "../services/ApiHelper";
+import jwt_decode from "jwt-decode";
+import { useToken } from "../context/TokenContext";
 
 const backendAdress = process.env.EXPO_PUBLIC_ADDRESS_BACK_END;
 
@@ -16,6 +19,15 @@ const [modalOpen,setModalOpen]=useState(false);
   const [articleData, setArticleData] = useState([]);
  
   const [selectedArticleId, setSelectedArticleId] = useState(null);
+  const [favoriteArticles, setFavoriteArticles] = useState([]);
+  
+  const { token,setToken } = useToken();
+  let userId = "";
+
+  if (token) {
+      const decodedToken = jwt_decode(token);
+      userId = decodedToken.userId;
+    }
 
   const handleArticleSelect = (articleId) => {
     console.log("Selected Article ID:", articleId);
@@ -46,47 +58,81 @@ const [modalOpen,setModalOpen]=useState(false);
       .catch((error) => console.warn(error));
   }, [reload, selectedCategory]); // Include selectedCategory as a dependency
 
-  const handleFavorite = (articleId) => {
-    // Find the selected article
-    const updatedArticles = articleData.map((article) => {
-      if (article.id === articleId) {
-        // Toggle the is_favourite field
-        article.is_favourite = article.is_favourite === 0 ? 1 : 0;
-        // Call the updateFavoriteStatus function with the updated article
-        updateFavoriteStatus(article, article.is_favourite);
-      }
-      return article;
-    });
-  
-    // Update the article data state
-    setArticleData(updatedArticles);
+ 
+  const fetchUserFavorites = () => {
+    console.log('Fetching user favorites..');
+    ApiHelper(`/favourites/users/${userId}`, 'GET')
+      .then((response) => {
+        console.log('Received response with status:', response.status);
+        if (!response.ok) {
+          throw new Error(`Request failed with status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Received user favorites data:', data);
+        const favoriteArticleIds = data.map((favorite) => favorite.article_id);
+        setFavoriteArticles(favoriteArticleIds);
+        console.log('Updated favorite articles:', favoriteArticleIds);
+      })
+      .catch((error) => {
+        console.error('Error fetching user favorites:', error);
+      });
   };
   
-  // Function to update the favorite status on the server
-  const updateFavoriteStatus = (article, isFavorite) => {
-    // You can make a PUT request to update the favorite status on the server
-    // Use the `article` object and `isFavorite` value to update the server data
-    fetch(`${backendAdress}/article/${article.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ is_favourite: isFavorite }),
-    })
+  useEffect(() => {
+    // Fetch user's favorite articles when userId changes
+    if (userId) {
+      fetchUserFavorites();
+    }
+  }, [userId]);
+
+   // Function to add an article to favorites
+   const addFavorite = (articleId) => {
+    console.log('Adding favorite...');
+    ApiHelper('/favourites', 'POST', null, JSON.stringify({
+      user_id: userId,
+      article_id: articleId,
+    }))
       .then((response) => {
-        console.log('coucou',response.status);
-        console.log('Article Object:', article);
-        if (response.ok) {
-          // Handle success
-          console.log('Favorite status updated successfully');
+        if (response.status === 201) {
+          console.log('Added to favorites successfully.');
+          setFavoriteArticles([...favoriteArticles, articleId]);
         } else {
-          // Handle error
-          console.error('Failed to update favorite status');
+          console.error('Error adding article to favorites. Status:', response.status);
+        }
+        // Return an empty object to prevent JSON parsing errors
+        return {};
+      })
+      .catch((error) => {
+        console.error('Network error:', error);
+      });
+  };
+  
+
+  const removeFavorite = (articleId) => {
+    ApiHelper(`/favourites/articles/${articleId}/users/${userId}`, 'DELETE')
+      .then((response) => {
+        if (response.ok) {
+          setFavoriteArticles(favoriteArticles.filter((id) => id !== articleId));
         }
       })
       .catch((error) => {
-        console.error('Error updating favorite status:', error);
+        console.error('Error removing article from favorites:', error);
       });
+  };
+
+  const toggleFavorite = (articleId) => {
+    console.log('Toggling favorite for articleId:', articleId);
+    if (favoriteArticles.includes(articleId)) {
+      console.log('Removing favorite...');
+      // If the article is already in favorites, remove it
+      removeFavorite(articleId);
+    } else {
+      console.log('Adding favorite...');
+      // If the article is not in favorites, add it
+      addFavorite(articleId);
+    }
   };
   
   const handleAddToCart = (articleId) => {
@@ -108,17 +154,19 @@ const [modalOpen,setModalOpen]=useState(false);
           }}
         >
           {articleData.map((article) => (
-            <TouchableOpacity key={article.id} onPress={() => handleArticleSelect(article.id)}>
-              <JeansCardStyle
-                width={width}
-                name={article.name}
-                discount={`-${article.discount}% Levi’s® Red Tab™`}
-                price={article.price}
-                onCardPress={() => handleArticleSelect(article.id)} 
-                onFavoritePress={() => handleFavorite(article.id)}
-                onAddToCartPress={() => handleAddToCart(article.id)}
-              />
-            </TouchableOpacity>
+           <TouchableOpacity key={article.id} onPress={() => handleArticleSelect(article.id)}>
+           <JeansCardStyle
+             width={width}
+             name={article.name}
+             discount={`-${article.discount}% Levi’s® Red Tab™`}
+             price={article.price}
+             onCardPress={() => handleArticleSelect(article.id)} 
+             onFavoritePress={() => toggleFavorite(article.id)} // Toggle favorite status
+             onAddToCartPress={() => handleAddToCart(article.id)}
+             // Pass a flag indicating if the article is in favorites
+             isFavorite={favoriteArticles.includes(article.id)}
+           />
+         </TouchableOpacity>
           ))}
         </View>
       </View>

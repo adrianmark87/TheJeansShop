@@ -9,7 +9,7 @@ class articleManager extends AbstractManager {
 
   insert(article) {
     return this.connection.query(
-      `insert into ${this.table} (name, category, size, gender, is_adult, colour, is_favourite, price, discount, quantity_stock) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `insert into ${this.table} (name, category, size, gender, is_adult, colour, price, discount, quantity_stock) values (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         article.name,
         article.category,
@@ -17,7 +17,6 @@ class articleManager extends AbstractManager {
         article.gender,
         article.is_adult,
         article.colour,
-        article.is_favourite,
         article.price,
         article.discount,
         article.quantity_stock,
