@@ -59,35 +59,7 @@ const [modalOpen,setModalOpen]=useState(false);
   }, [reload, selectedCategory]); // Include selectedCategory as a dependency
 
  
-  const fetchUserFavorites = () => {
-    console.log('Fetching user favorites..');
-    ApiHelper(`/favourites/users/${userId}`, 'GET')
-      .then((response) => {
-        console.log('Received response with status:', response.status);
-        if (!response.ok) {
-          throw new Error(`Request failed with status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Received user favorites data:', data);
-        const favoriteArticleIds = data.map((favorite) => favorite.article_id);
-        setFavoriteArticles(favoriteArticleIds);
-        console.log('Updated favorite articles:', favoriteArticleIds);
-      })
-      .catch((error) => {
-        console.error('Error fetching user favorites:', error);
-      });
-  };
-  
-  useEffect(() => {
-    // Fetch user's favorite articles when userId changes
-    if (userId) {
-      fetchUserFavorites();
-    }
-  }, [userId]);
-
-   // Function to add an article to favorites
+     // Function to add an article to favorites
    const addFavorite = (articleId) => {
     console.log('Adding favorite...');
     ApiHelper('/favourites', 'POST', null, JSON.stringify({
