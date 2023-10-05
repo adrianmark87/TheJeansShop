@@ -11,10 +11,13 @@ const kindChecker = require("../services/EmailSenderService");
 const privateKey = fs.readFileSync("jwtRS256.key");
 
 function login({ email, password }) {
+  console.log("Received email:", email);
+  console.log("Received password:", password);
   return connection
     .promise()
     .query("SELECT * FROM user WHERE email = ?", [email])
     .then(async ([rows]) => {
+      console.log("User data from the database:", rows);
       if (rows.length === 0) {
         return { status: 401, message: "Email or password is wrong" };
       }

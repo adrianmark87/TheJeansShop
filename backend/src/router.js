@@ -3,6 +3,7 @@ const express = require("express");
 const {
   verifyToken,
   verifyTokenByRoleAdminOrSelfId,
+  verifyTokenById,
 } = require("./middleware/securityMiddleware");
 
 const router = express.Router();
@@ -75,20 +76,59 @@ router.delete(
 
 const orderDetailsControllers = require("./controllers/orderDetailsControllers");
 
-router.get("/order_details", orderDetailsControllers.browse);
-router.get("/order_details/:id", orderDetailsControllers.read);
+router.get(
+  "/order_details/orders/:order_id",
+  verifyToken,
+  verifyTokenByRoleAdminOrSelfId,
+  orderDetailsControllers.browse
+);
+router.get(
+  "/order_details/articles/:article_id/orders/:order_id",
+  verifyToken,
+  verifyTokenByRoleAdminOrSelfId,
+  orderDetailsControllers.read
+);
 router.put(
-  "/order_details/:id",
+  "/order_details/articles/:article_id/orders/:order_id",
   verifyToken,
   verifyTokenByRoleAdminOrSelfId,
   orderDetailsControllers.edit
 );
-router.post("/order_details", orderDetailsControllers.add);
+router.post(
+  "/order_details/orders/",
+  verifyToken,
+  verifyTokenByRoleAdminOrSelfId,
+  orderDetailsControllers.add
+);
 router.delete(
-  "/order_details/:id",
+  "/order_details/articles/:article_id/orders/:order_id",
   verifyToken,
   verifyTokenByRoleAdminOrSelfId,
   orderDetailsControllers.destroy
+);
+
+const favouritesControllers = require("./controllers/favouritesControllers");
+
+// Define routes for the favourites manager
+router.get(
+  "/favourites/users/:user_id",
+  verifyToken,
+  favouritesControllers.findFavourites
+);
+router.get(
+  "/favourites/articles/:article_id/users/:user_id",
+  verifyToken,
+  favouritesControllers.findOneFavourite
+);
+router.post(
+  "/favourites",
+  verifyToken, // Middleware for verifying the token
+  favouritesControllers.insertFavourite
+);
+router.delete(
+  "/favourites/articles/:article_id/users/:user_id",
+  verifyToken,
+  favouritesControllers.deleteOneFavourite
 );
 
 module.exports = router;

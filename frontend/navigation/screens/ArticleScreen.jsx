@@ -1,26 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 
-
-const EXPO_PUBLIC_ADDRESS_BACK_END = "http://192.168.1.71:5555";
-
-const { height, width } = Dimensions.get('window');
-
-export default function ArticleScreen() {
-  const [reload, setReload] = useState(false);
-  const [articleData, setArticleData] = useState([]);
- 
-
-  useEffect(() => {
-    fetch(`${EXPO_PUBLIC_ADDRESS_BACK_END}/article/`)
-    .then((response) => response.json())
-    .then((response) => {
-      // console.log("Response Data:", response);
-        setArticleData(response);
-    })
-    .catch((error) => console.warn(error));
-    
-  }, [reload]);
+export default function ArticleScreen({ selectedArticleId, articleData }) {
+  // Find the selected article based on the selectedArticleId
+  const selectedArticle = articleData.find((article) => article.id === selectedArticleId);
+  const excludedKeys = ['id', 'is_adult', 'gender'];
 
   return (
     <ScrollView scrollEventThrottle={16}>
@@ -29,20 +12,17 @@ export default function ArticleScreen() {
           Qu'est-ce que vous recherchez ?
         </Text>
       </View>
-      {/* Render articles */}
-      {articleData.map((article) => (
-        <View key={article.id} style={{ marginTop: 40, paddingHorizontal: 20 }}>
-          {Object.entries(article).map(([key, value]) => (
-            <Text key={key}>
-              {key}: {value}
-            </Text>
+      {/* Render the selected article */}
+      {selectedArticle && (
+        <View style={{ marginTop: 40, paddingHorizontal: 20 }}>
+          {Object.entries(selectedArticle).map(([key, value]) => (
+            // Check if the key should be excluded
+            excludedKeys.includes(key) ? null : (
+              <Text key={key}>{value}</Text>
+            )
           ))}
         </View>
-      ))}
+      )}
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  // Add custom styles here if needed
-});

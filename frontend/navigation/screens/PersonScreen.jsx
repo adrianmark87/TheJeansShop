@@ -6,7 +6,7 @@
   import { useToken } from "../context/TokenContext";
   import ApiHelper from "../services/ApiHelper";
 
-  const EXPO_PUBLIC_ADDRESS_BACK_END = "http://192.168.1.71:5555";
+  const backendAdress = process.env.EXPO_PUBLIC_ADDRESS_BACK_END;
 
   export default function PersonScreen() { 
       const [reload, setReload] = useState(false);
@@ -21,7 +21,7 @@
         city: "",
         password: "",
         confirmPassword: "",
-        is_admin: false,
+        // is_admin: true, //if I modify it here nothing will happen, it should be modified in the manager
       })
 
       const { token,setToken } = useToken();
@@ -34,7 +34,7 @@
 
         useEffect(() => {
           // console.log(`${EXPO_PUBLIC_ADDRESS_BACK_END}/user/${userId}`)
-          fetch(`${EXPO_PUBLIC_ADDRESS_BACK_END}/user/${userId}`)
+          fetch(`${backendAdress}/user/${userId}`)
           .then((response) => response.json())
           .then((response) => {
             delete response.password;
@@ -64,6 +64,7 @@
         formData.city &&
         formData.password      
       ) {
+        
         delete formData.confirmPassword
           const userData = JSON.stringify(formData);
   // console.log('coucou',formData);

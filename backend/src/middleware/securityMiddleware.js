@@ -16,6 +16,7 @@ function verifyToken(req, res, next) {
   try {
     const decoded = jwt.verify(token, privateKey);
     req.payload = decoded;
+    console.log("next");
     next();
   } catch (error) {
     return res.status(401).json("Invalid token");
@@ -36,7 +37,7 @@ const verifyTokenById = (req, res, next) => {
 
 const verifyTokenByRoleAdminOrSelfId = (req, res, next) => {
   try {
-    console.log("VERIFYTOKENBYADMINORSELFID");
+    console.log("coucou");
     if (
       !(
         req.payload.is_admin ||

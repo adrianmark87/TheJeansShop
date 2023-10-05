@@ -11,7 +11,7 @@ app.use(cookieParser());
 // No need for cors in React Native
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.71:8081"); // Remplacez par l'URL de votre front-end
+  res.setHeader("Access-Control-Allow-Origin", "http://192.168.1.85:8081"); // Remplacez par l'URL de votre front-end
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Credentials", "true");

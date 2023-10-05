@@ -15,12 +15,31 @@ class orderDetailsManager extends AbstractManager {
     );
   }
 
-  update(id, order_details) {
-    const sqlSets = generateSqlSets(order_details);
-
+  update(quantity, article_id, order_id) {
     return this.connection.query(
-      `UPDATE ${this.table} SET ${sqlSets} WHERE id = ?`,
-      [...Object.values(order_details), id]
+      `UPDATE ${this.table} SET quantity = ? WHERE order_details.article_id = ? AND order_details.order_id = ? `,
+      [quantity, article_id, order_id]
+    );
+  }
+
+  findOrders(order_id) {
+    return this.connection.query(
+      `SELECT * FROM order_details JOIN article ON order_details.article_id = article.id WHERE order_details.order_id = ?`,
+      [order_id]
+    );
+  }
+
+  findOneOrder(article_id, order_id) {
+    return this.connection.query(
+      `SELECT * FROM order_details WHERE article_id = ? AND order_id = ?`,
+      [article_id, order_id]
+    );
+  }
+
+  deleteOneOrder(article_id, order_id) {
+    return this.connection.query(
+      `DELETE FROM order_details WHERE article_id = ? AND order_id = ?`,
+      [article_id, order_id]
     );
   }
 }

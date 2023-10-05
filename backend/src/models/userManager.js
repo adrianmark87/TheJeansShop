@@ -14,6 +14,7 @@ class userManager extends AbstractManager {
   async insert(user) {
     console.log("USER : ", user);
     const hashedPassword = await passwordHasher(user.password);
+    const is_admin = true;
     return this.connection
       .query(
         `insert into ${this.table} (first_name, last_name, birth_date, phone, email, address, zip_code, city, password, is_admin, subscription_date, expo_push_token) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)`,
@@ -27,7 +28,7 @@ class userManager extends AbstractManager {
           user.zip_code,
           user.city,
           hashedPassword,
-          user.is_admin,
+          is_admin,
           user.expo_push_token,
         ]
       )

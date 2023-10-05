@@ -3,7 +3,7 @@ const models = require("../models");
 
 const browse = (req, res) => {
   models.order_details
-    .findAll()
+    .findOrders(req.params.order_id)
     .then(([rows]) => {
       res.send(rows);
     })
@@ -14,8 +14,10 @@ const browse = (req, res) => {
 };
 
 const read = (req, res) => {
+  const { article_id, order_id } = req.params;
+
   models.order_details
-    .find(req.params.id)
+    .findOneOrder(article_id, order_id)
     .then(([rows]) => {
       if (rows[0] == null) {
         res.sendStatus(404);
@@ -30,12 +32,14 @@ const read = (req, res) => {
 };
 
 const edit = (req, res) => {
-  const order_details = req.body;
-
   // TODO validations (length, format...)
 
   models.order_details
-    .update(parseInt(req.params.id, 10), order_details)
+    .update(
+      req.body.quantity,
+      parseInt(req.params.article_id, 10),
+      parseInt(req.params.order_id, 10)
+    )
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
@@ -57,7 +61,7 @@ const add = (req, res) => {
   models.order_details
     .insert(order_details)
     .then(([result]) => {
-      res.location(`/order_detailss/${result.insertId}`).sendStatus(201);
+      res.location(`/order_details/${result.insertId}`).sendStatus(201);
     })
     .catch((err) => {
       console.error(err);
@@ -67,7 +71,7 @@ const add = (req, res) => {
 
 const destroy = (req, res) => {
   models.order_details
-    .delete(req.params.id)
+    .deleteOneOrder(req.params.article_id, req.params.order_id)
     .then(([result]) => {
       if (result.affectedRows === 0) {
         res.sendStatus(404);
