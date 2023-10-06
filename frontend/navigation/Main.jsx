@@ -18,7 +18,7 @@ import LogIn from './LogIn';
 import Payment from './Paiement';
 
 import { useToken } from "./context/TokenContext";
-import { FavoriteArticlesProvider } from './context/FavouritesArticlesContext';
+import { useFavorites, FavoritesProvider } from './context/FavouritesContext'; // Import useFavorites and FavoritesProvider
 
 
 
@@ -35,9 +35,7 @@ const Stack = createStackNavigator();
 
 export default function Main(){
     const { token,setToken } = useToken();
-    // setToken(null) // To disconnect I have to uncomment this line
-    // Later I have to develop a function handleLogout to disconnect with a button, and set this Token to null when disconnecting.
-//console.log(token);
+    // const { favoriteArticles, addFavorite, removeFavorite } = useFavorites(); // Use the useFavorites hook
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const handleLogin = () => {
         // Implement your authentication logic here
@@ -47,7 +45,7 @@ export default function Main(){
     return(
        <NavigationContainer>
         {token ? ( // Conditionally render either the AuthStack or your Tab Navigator
-         <FavoriteArticlesProvider>
+         <FavoritesProvider>
         <Tab.Navigator initialRouteName={homeName}
         screenOptions={({route})=>({
             tabBarIcon:({focused,color,size})=>{
@@ -83,7 +81,7 @@ export default function Main(){
             <Tab.Screen name={favouritesName} component={FavouritesScreen}/>
             <Tab.Screen name={personName} component={PersonScreen}/>
             
-        </Tab.Navigator></FavoriteArticlesProvider>  ) : (
+        </Tab.Navigator></FavoritesProvider>  ) : (
     // Auth screens
     <Stack.Navigator initialRouteName="Welcome">
       <Stack.Screen name="Welcome" component={Welcome} 
