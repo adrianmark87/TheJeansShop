@@ -24,6 +24,18 @@ const FavouritesScreen = ({}) => {
     userId = decodedToken.userId;
   }
 
+  const removeFavorite = (articleId) => {
+    ApiHelper(`/favourites/articles/${articleId}/users/${userId}`, 'DELETE')
+      .then((response) => {
+        if (response.ok) {
+          setFavoriteArticles(favoriteArticles.filter((id) => id !== articleId));
+        }
+      })
+      .catch((error) => {
+        console.error('Error removing article from favorites:', error);
+      });
+  };
+
   const fetchUserFavorites = () => {
     console.log('Fetching user favorites..');
     return ApiHelper(`/favourites/users/${userId}`, 'GET') // Return the promise here
@@ -60,17 +72,7 @@ const FavouritesScreen = ({}) => {
       });
   };
 
-  const removeFavorite = (articleId) => {
-    ApiHelper(`/favourites/articles/${articleId}/users/${userId}`, 'DELETE')
-      .then((response) => {
-        if (response.ok) {
-          setFavoriteArticles(favoriteArticles.filter((id) => id !== articleId));
-        }
-      })
-      .catch((error) => {
-        console.error('Error removing article from favorites:', error);
-      });
-  };
+
 
   return (
     <ScrollView
