@@ -133,7 +133,7 @@ const [modalOpen,setModalOpen]=useState(false);
              discount={`-${article.discount}% Levi’s® Red Tab™`}
              price={article.price}
              onCardPress={() => handleArticleSelect(article.id)} 
-             onFavoritePress={() => toggleFavorite(article.id)} // Toggle favorite status
+             onFavoritePress={() => toggleFavorite(article.id)} 
              onAddToCartPress={() => handleAddToCart(article.id)}
              // Pass a flag indicating if the article is in favorites
              isFavorite={favoriteArticles.includes(article.id)}

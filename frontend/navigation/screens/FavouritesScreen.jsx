@@ -13,10 +13,9 @@ const { height, width } = Dimensions.get('window');
 
 const FavouritesScreen = ({}) => {
   const [favoriteArticles, setFavoriteArticles] = useState([]);
-  const [reload, setReload] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [articleData, setArticleData] = useState([]);
-
+  const [reload, setReload] = useState(false);
+ 
   const { token, setToken } = useToken();
   let userId = "";
 
@@ -24,6 +23,18 @@ const FavouritesScreen = ({}) => {
     const decodedToken = jwt_decode(token);
     userId = decodedToken.userId;
   }
+
+  const removeFavorite = (articleId) => {
+    ApiHelper(`/favourites/articles/${articleId}/users/${userId}`, 'DELETE')
+      .then((response) => {
+        if (response.ok) {
+          setFavoriteArticles(favoriteArticles.filter((id) => id !== articleId));
+        }
+      })
+      .catch((error) => {
+        console.error('Error removing article from favorites:', error);
+      });
+  };
 
   const fetchUserFavorites = () => {
     console.log('Fetching user favorites..');
@@ -45,15 +56,10 @@ const FavouritesScreen = ({}) => {
       });
   };
  
-
   useEffect(() => {
     console.log('Favorite articles:', favoriteArticles);
-    // Fetch user's favorite articles when userId changes or reload is toggled
-    if (userId || reload) {
-      fetchUserFavorites();
-      setReload((prevReload) => !prevReload); // Reset the reload state after fetching
-    }
-  }, [userId]);
+        fetchUserFavorites();
+      }, [reload,userId]);
 
   const onRefresh = () => {
     // Set the refreshing state to true when the user triggers the refresh
@@ -65,6 +71,8 @@ const FavouritesScreen = ({}) => {
         setRefreshing(false);
       });
   };
+
+
 
   return (
     <ScrollView
@@ -85,7 +93,10 @@ const FavouritesScreen = ({}) => {
              width={width}
              name={article.name}
              discount={`-${article.discount}% Levi’s® Red Tab™`}
-             price={article.price}/></TouchableOpacity>
+             price={article.price}
+             onFavoritePress={() => removeFavorite(article.id)} 
+             /></TouchableOpacity>
+             
             ))}
           </View>
         
