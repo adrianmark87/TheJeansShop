@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView, Dimensions, StyleSheet, Modal,TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Dimensions, StyleSheet, Modal,TouchableOpacity } from 'react-native';
 import JeansCardStyle from './components/Explore/JeansCardStyle';
 import { AntDesign } from '@expo/vector-icons';
 import ArticleScreen from './ArticleScreen';
-import ApiHelper from "../services/ApiHelper";
-import jwt_decode from "jwt-decode";
-import { useToken } from "../context/TokenContext";
+import { useFavorites } from '../context/FavouritesContext';
 
 const backendAdress = process.env.EXPO_PUBLIC_ADDRESS_BACK_END;
 
@@ -13,21 +11,14 @@ const backendAdress = process.env.EXPO_PUBLIC_ADDRESS_BACK_END;
 const { height, width } = Dimensions.get('window');
 
 export default function ArticleSelected({ selectedCategory }) {
+const { favoriteArticles, removeFavorite, toggleFavorite } = useFavorites(); 
 const [modalOpen,setModalOpen]=useState(false);
 
   const [reload, setReload] = useState(false);
   const [articleData, setArticleData] = useState([]);
  
   const [selectedArticleId, setSelectedArticleId] = useState(null);
-  const [favoriteArticles, setFavoriteArticles] = useState([]);
-  
-  const { token,setToken } = useToken();
-  let userId = "";
 
-  if (token) {
-      const decodedToken = jwt_decode(token);
-      userId = decodedToken.userId;
-    }
 
   const handleArticleSelect = (articleId) => {
     console.log("Selected Article ID:", articleId);
@@ -57,56 +48,7 @@ const [modalOpen,setModalOpen]=useState(false);
       })
       .catch((error) => console.warn(error));
   }, [reload, selectedCategory]); // Include selectedCategory as a dependency
-
- 
-     // Function to add an article to favorites
-   const addFavorite = (articleId) => {
-    console.log('Adding favorite...');
-    ApiHelper('/favourites', 'POST', null, JSON.stringify({
-      user_id: userId,
-      article_id: articleId,
-    }))
-      .then((response) => {
-        if (response.status === 201) {
-          console.log('Added to favorites successfully.');
-          setFavoriteArticles([...favoriteArticles, articleId]);
-        } else {
-          console.error('Error adding article to favorites. Status:', response.status);
-        }
-        // Return an empty object to prevent JSON parsing errors
-        return {};
-      })
-      .catch((error) => {
-        console.error('Network error:', error);
-      });
-  };
-  
-
-  const removeFavorite = (articleId) => {
-    ApiHelper(`/favourites/articles/${articleId}/users/${userId}`, 'DELETE')
-      .then((response) => {
-        if (response.ok) {
-          setFavoriteArticles(favoriteArticles.filter((id) => id !== articleId));
-        }
-      })
-      .catch((error) => {
-        console.error('Error removing article from favorites:', error);
-      });
-  };
-
-  const toggleFavorite = (articleId) => {
-    console.log('Toggling favorite for articleId:', articleId);
-    if (favoriteArticles.includes(articleId)) {
-      console.log('Removing favorite...');
-      // If the article is already in favorites, remove it
-      removeFavorite(articleId);
-    } else {
-      console.log('Adding favorite...');
-      // If the article is not in favorites, add it
-      addFavorite(articleId);
-    }
-  };
-  
+   
   const handleAddToCart = (articleId) => {
     // Implement logic to handle add to cart action for the given articleId
     // You can update the state or perform any other actions as needed

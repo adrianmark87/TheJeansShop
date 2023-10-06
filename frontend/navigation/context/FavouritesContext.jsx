@@ -9,16 +9,17 @@ export function FavoritesProvider({ children }) {
   const [favoriteArticles, setFavoriteArticles] = useState([]);
   const { token } = useToken();
   const [userId, setUserId] = useState(""); // Initialize userId
-
+  
   // Fetch user favorites and set them in the state
   const fetchUserFavorites = () => {
     if (token) {
       const decodedToken = jwt_decode(token);
       const userId = decodedToken.userId;
-      setUserId(userId); // Set userId based on the token
+      setUserId(userId);
       console.log('Fetching user favorites for userId:', userId);
-      
-      ApiHelper(`/favourites/users/${userId}`, 'GET')
+  
+      // Add a return statement here to return the promise
+      return ApiHelper(`/favourites/users/${userId}`, 'GET')
         .then((response) => {
           if (response.status === 200) {
             return response.json();
@@ -34,7 +35,7 @@ export function FavoritesProvider({ children }) {
         });
     }
   };
-
+  
   useEffect(() => {
     fetchUserFavorites(); // Fetch user favorites when the component mounts
   }, [token]); // Re-fetch when the token changes
@@ -79,7 +80,7 @@ export function FavoritesProvider({ children }) {
   };
 
   return (
-    <FavoritesContext.Provider value={{ favoriteArticles, addFavorite, removeFavorite, toggleFavorite }}>
+    <FavoritesContext.Provider value={{ favoriteArticles, addFavorite, removeFavorite, toggleFavorite,fetchUserFavorites }}>
       {children}
     </FavoritesContext.Provider>
   );

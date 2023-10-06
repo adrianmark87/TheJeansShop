@@ -77,7 +77,7 @@ export default function HomeScreen(){
           </View>
       </View>
      
-        <ArticleSelected selectedCategory={selectedCategory} setArticleData={setArticleData} />
+        <ArticleSelected setArticleData={setArticleData} />
     </ScrollView>
     
     )

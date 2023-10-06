@@ -18,7 +18,7 @@ import LogIn from './LogIn';
 import Payment from './Paiement';
 
 import { useToken } from "./context/TokenContext";
-import { useFavorites, FavoritesProvider } from './context/FavouritesContext'; // Import useFavorites and FavoritesProvider
+import {FavoritesProvider } from './context/FavouritesContext'; // Import useFavorites and FavoritesProvider
 
 
 
@@ -35,7 +35,6 @@ const Stack = createStackNavigator();
 
 export default function Main(){
     const { token,setToken } = useToken();
-    // const { favoriteArticles, addFavorite, removeFavorite } = useFavorites(); // Use the useFavorites hook
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const handleLogin = () => {
         // Implement your authentication logic here
